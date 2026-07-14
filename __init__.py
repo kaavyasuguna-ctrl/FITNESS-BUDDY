@@ -3,36 +3,43 @@
 #  https://opensource.org/licenses/BSD-3-Clause
 #  -----------------------------------------------------------------------------------------
 
-from importlib.metadata import version
-from typing import TYPE_CHECKING, Any
+from ibm_watsonx_ai.foundation_models.batch_inference import BatchInference
+from ibm_watsonx_ai.foundation_models.embeddings import Embeddings
+from ibm_watsonx_ai.foundation_models.inference import (
+    AudioModelInference,
+    TSModelInference,
+)
+from ibm_watsonx_ai.foundation_models.inference.model_inference import ModelInference
+from ibm_watsonx_ai.foundation_models.rerank import Rerank
+from ibm_watsonx_ai.foundation_models.utils.utils import (
+    get_custom_model_specs,
+    get_embedding_model_specs,
+    get_model_lifecycle,
+    get_model_specs,
+    get_model_specs_with_prompt_tuning_support,
+    get_supported_tasks,
+)
 
-if TYPE_CHECKING:
-    from .client import APIClient  # noqa: F401
-    from .credentials import Credentials  # noqa: F401
-    from .utils.enums import AssetDuplicateAction  # noqa: F401
+from .fine_tuner import FineTuner
+from .ilab_tuner import ILabTuner
+from .model import Model
+from .prompt_tuner import PromptTuner
 
-package_name = __name__.replace("_", "-")
-__version__ = version(package_name)
-
-__all__ = ["APIClient", "AssetDuplicateAction", "Credentials", "package_name"]
-
-
-def __getattr__(name: str) -> Any:
-    if name == "APIClient":
-        from .client import APIClient  # noqa: F401
-
-        APIClient.version = __version__
-
-        return APIClient
-
-    if name == "Credentials":
-        from .credentials import Credentials  # noqa: F401
-
-        return Credentials
-
-    if name == "AssetDuplicateAction":
-        from .utils.enums import AssetDuplicateAction  # noqa: F401
-
-        return AssetDuplicateAction
-
-    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+__all__ = [
+    "Embeddings",
+    "AudioModelInference",
+    "TSModelInference",
+    "ModelInference",
+    "Rerank",
+    "get_custom_model_specs",
+    "get_embedding_model_specs",
+    "get_model_lifecycle",
+    "get_model_specs",
+    "get_model_specs_with_prompt_tuning_support",
+    "get_supported_tasks",
+    "FineTuner",
+    "ILabTuner",
+    "Model",
+    "PromptTuner",
+    "BatchInference",
+]
